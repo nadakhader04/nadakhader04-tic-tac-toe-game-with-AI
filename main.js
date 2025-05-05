@@ -3,7 +3,6 @@
         const cells = document.querySelectorAll(".cell");   
 
 
-
         const onePerson = document.querySelector('.onePerson');
         const twoPerson = document.querySelector('.twoPerson');
         
