@@ -108,39 +108,38 @@
         }
 
 
-
-
-        function checkWinnerState() {
+function checkWinnerState() {
             const winningCombinations = [
-                [1, 2, 3],
-                [4, 5, 6],
-                [7, 8, 9],
-                [1, 4, 7],
-                [2, 5, 8],
-                [3, 6, 9],
-                [1, 5, 9],
-                [3, 5, 7]
+              [1, 2, 3],
+              [4, 5, 6],
+              [7, 8, 9],
+              [1, 4, 7],
+              [2, 5, 8],
+              [3, 6, 9],
+              [1, 5, 9],
+              [3, 5, 7],
             ];
-
+          
             for (const combination of winningCombinations) {
-                const [a, b, c] = combination;
-                if (cells[a - 1].innerHTML !== "" && 
-                cells[a - 1].innerHTML === cells[b - 1].innerHTML && 
-                cells[a - 1].innerHTML === cells[c - 1].innerHTML) {
-                   
-                    return cells[a - 1].innerHTML === "X" ? +1 : -1;  //evaluation
-                    
-                }
-
-                 // evaluation 
-                if ([...cells].every(cell => cell.innerHTML !== "")) {
-                    return 0;
-                }
-              // not terminat 
-                return null; 
+              const [a, b, c] = combination;
+              if (
+                cells[a - 1].innerHTML !== "" &&
+                cells[a - 1].innerHTML === cells[b - 1].innerHTML &&
+                cells[a - 1].innerHTML === cells[c - 1].innerHTML
+              ) 
+              {
+                return cells[a - 1].innerHTML.includes("x") ? +1 : -1;
+              }
             }
-        }
-
+          
+            // If all cells filled => tie
+            if ([...cells].every((cell) => cell.innerHTML !== "")) {
+              return 0;
+            }
+          
+            // Game not finished yet
+            return null;
+          }
         
         function checkWinner() {
             const winningCombinations = [
