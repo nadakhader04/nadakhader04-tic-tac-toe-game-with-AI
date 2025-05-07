@@ -3,6 +3,7 @@
         const cells = document.querySelectorAll(".cell");   
 
 
+
         const onePerson = document.querySelector('.onePerson');
         const twoPerson = document.querySelector('.twoPerson');
         
@@ -22,6 +23,13 @@
         });
 
 
+
+        let level = "Easy";
+        function changeLevel() {
+            const getLevel = document.getElementById("level").value;
+            level = getLevel;
+            console.log("Selected level", level);            
+        }
 
         let turn = "x";
         function game(id) {
@@ -43,31 +51,41 @@
 
             else if(flag && cell.innerHTML===""){
                 cell.innerHTML = '<i class="fa-solid fa-o"></i>';
-                console.log("check winner", checkWinner);
-                console.log("check winner state", checkWinnerState());
                 if(!checkWinner()) {
-                   bestMove(id);
+                   bestMove();
                 }
             }
         }
 
 
-        function bestMove(id) {
-            let score = -Infinity;
+        function bestMove() {
             let move;
 
+            console.log("bestMove", level);
+            console.log("null", null);
+            const arrayOfCells = [];
             for (let i = 0; i < cells.length; i++) {
                 if (cells[i].innerHTML === "") {
-                    cells[i].innerHTML = '<i class="fa-solid fa-x"></i>';
-                    let currentScore = minimax(false);
-                    cells[i].innerHTML = ""; 
-                    if (currentScore > score) {
-                        score = currentScore;
-                        move = i;
-                    }
+                    arrayOfCells.push(i);
                 }
             }
 
+            if (level === "Easy") {
+                const randomIndex = Math.floor(Math.random() * arrayOfCells.length);
+                move = arrayOfCells[randomIndex];               
+            }
+            else if (level === "Medium") {
+                let random = Math.random() < 0.5;
+                move = random ? getRandomMove(arrayOfCells) : getBestMinimaxMove(arrayOfCells);
+            } 
+            else if (level === "Hard") {
+                let random = Math.random() < 0.8;
+                move = random ? getRandomMove(arrayOfCells) : getBestMinimaxMove(arrayOfCells);
+            }
+            else{
+                move = getBestMinimaxMove(arrayOfCells);
+            }
+           
             if (move !== undefined) {
                 cells[move].innerHTML = '<i class="fa-solid fa-x"></i>';
                 checkWinner();
@@ -75,6 +93,26 @@
 
         }
         
+        
+        function getRandomMove(emptyCells) {
+            const randomIndex = Math.floor(Math.random() * emptyCells.length);
+            return emptyCells[randomIndex];
+        }
+
+        function getBestMinimaxMove(emptyCells) {
+            let bestScore = -Infinity;
+            let bestMove;
+            for (let i of emptyCells) {
+                cells[i].innerHTML = '<i class="fa-solid fa-x"></i>';
+                let score = minimax(false);
+                cells[i].innerHTML = "";
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = i;
+                }
+            }
+            return bestMove;
+        }
 
         function minimax(isMaximizing) {
             const result = checkWinnerState();
@@ -108,7 +146,7 @@
         }
 
 
-function checkWinnerState() {
+        function checkWinnerState() {
             const winningCombinations = [
               [1, 2, 3],
               [4, 5, 6],
@@ -140,8 +178,10 @@ function checkWinnerState() {
             // Game not finished yet
             return null;
           }
+
         
         function checkWinner() {
+            console.log("level", level);
             const winningCombinations = [
                 [1, 2, 3],
                 [4, 5, 6],
@@ -188,5 +228,5 @@ function checkWinnerState() {
             flag = true;
         
         }
-        
+
 
