@@ -71,15 +71,15 @@
             }
 
             if (level === "Easy") {
-                const randomIndex = Math.floor(Math.random() * arrayOfCells.length);
-                move = arrayOfCells[randomIndex];               
+                let random = Math.random() < 0.5;
+                move = random ? getRandomMove(arrayOfCells) : getBestMinimaxMove(arrayOfCells);             
             }
             else if (level === "Medium") {
-                let random = Math.random() < 0.5;
+                let random = Math.random() < 0.2;
                 move = random ? getRandomMove(arrayOfCells) : getBestMinimaxMove(arrayOfCells);
             } 
             else if (level === "Hard") {
-                let random = Math.random() < 0.8;
+                let random = Math.random() < .1;
                 move = random ? getRandomMove(arrayOfCells) : getBestMinimaxMove(arrayOfCells);
             }
             else{
